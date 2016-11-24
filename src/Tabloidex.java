@@ -6,6 +6,7 @@ public class Tabloidex {
 	
 	public static void pruebaGrafica(){
 		Ventana ventana = new Ventana();
+//buenos dias
 		
 	}
 	
