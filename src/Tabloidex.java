@@ -44,6 +44,28 @@ public class Tabloidex {
 	public static void modoProgresivo(){
 		
 	}
+	
+	public static int[][] genTablero(int n){
+		Random random = new Random();
+		int[][] tablero = new int[n][];
+		for(byte i=0;i<n;i++){
+			tablero[i] = new int[n];
+			for(byte j=0;j<n;j++){
+				tablero[i][j] = 1 + random.nextInt(3);
+			}
+		}
+		return tablero;
+	}
+	
+	public static void printTablero(int[][] tablero){
+		for(byte i=0;i<tablero.length;i++){
+			for(byte j=0;j<tablero[i].length;j++){
+				System.out.print(tablero[i][j]);
+				// añadir caja System.out.print("\u2502");
+			}
+			System.out.println("");
+		}
+	}
 
 	public static void main(String[] args) {
 		System.out.println("TABLOIDEX - 0.1.0");
@@ -59,6 +81,7 @@ public class Tabloidex {
 		case 42: pruebaGrafica(); break;
 		case 77: System.out.println("El genio de la suerte dice: "+genNumero(10));break;
 		case 12: sumaInfinita(); break;
+		case 15: printTablero(genTablero(9));break;
 		}
 		
 	}
