@@ -23,8 +23,8 @@ public class Tabloidex {
 	}
 
 	public static void modoContinuo(Scanner in) {		
-		int colors = 3;
-		int size = 6;
+		int colors = 2;
+		int size = 9;
 		boolean exit = false;
 		int pasos = 0; // LEER MINIMO DE PASOS DE ARCHIVO
 		// TODO GUARDAR MINIMO DE PASOS EN ARCHIVO
@@ -33,8 +33,9 @@ public class Tabloidex {
 		
 		
 		while(!exit){
-			//int[][] tablero = genTablero(size,colors);
-			int[][] tablero = {{1,1,2,2,1,3},{3,2,2,3,2,3},{3,3,1,2,1,2},{1,2,2,3,1,2},{3,2,3,3,2,3},{2,2,3,2,2,3}};
+			//int[][] tablero = {{1,1,2,2,1,3},{3,2,2,3,2,3},{3,3,1,2,1,2},{1,2,2,3,1,2},{3,2,3,3,2,3},{2,2,3,2,2,3}};
+			int[][] tablero = genTablero(size,colors);
+			setupTablero(tablero);
 			printTablero(tablero);
 			while(!esCompleto(tablero)){
 				byte selection;
@@ -43,21 +44,30 @@ public class Tabloidex {
 					System.out.print("Introduce el color: ");
 					selection = in.nextByte();
 					System.out.println();
-				}while(selection == tablero[0][0] || selection < 1 || selection > colors);
+				}while(selection == tablero[0][0] % 10 || selection < 1 || selection > colors);
 				
 				pasos++;
 				
-				// TODO el algoritmo tiene fallos
-				int previo = tablero[0][0];
+				// PARA SABER SI ALGO ESTA SELECCIONADO
+				// - MATRIZ INDEPENDIENTE BOOLEANA
+				// - OBJETO CELDA
+				// - TERCERA DIMENSION
+				// - MODULO 10 (printTablero y Tablero)
+				// - Caminos con Dijsktra
+				
+				// Cambiar el valor de la seleccion al nuevo valor
 				for(int i=0;i<tablero.length;i++){
 					for(int j=0;j<tablero.length;j++){
-						// PARA SABER SI ALGO ESTA SELECCIONADO
-						// - MATRIZ INDEPENDIENTE BOOLEANA
-						// - OBJETO CELDA
-						// - TERCERA DIMENSION
+						if(tablero[i][j] / 10 == 1){
+							tablero[i][j] = 10+selection;
+						}
 					}
 				}
 				
+				// Contagiar
+				contagiar(tablero);
+				
+				// printTablero
 				printTablero(tablero);
 			}
 			
@@ -102,13 +112,13 @@ public class Tabloidex {
 						System.out.println("Introdudce el nuevo tamaño del tablero (9, 11 o 15):");
 						size = in.nextInt();
 					}while(size != 9 && size != 11 && size != 15);
-					break; // TODO Cambiar tamaño y salir a menú
+					break;
 				case 3:
 					do{
 						System.out.println("Introduce el número de colores (entre 2 y 6)");
 						colors = in.nextInt();
 					}while(colors < 2 || colors > 6);
-					break; // TODO Cambiar colores y salir a menú
+					break;
 				
 				}
 			}
@@ -116,6 +126,31 @@ public class Tabloidex {
 			// Cambiar variables según opción y LOOP!!
 		}
 
+	}
+
+	public static void contagiar(int[][] tablero){
+		for(int i=0;i<tablero.length;i++){
+			for(int j=0;j<tablero.length;j++){
+				if(tablero[i][j] / 10 == 1){
+					int color = tablero[i][j] % 10;
+					if(i+1 < tablero.length && tablero[i+1][j] == color)
+						tablero[i+1][j] += 10;
+					if(i-1 >= 0 && tablero[i-1][j] == color)
+						tablero[i-1][j] += 10;
+					if(j-1 >= 0 && tablero[i][j-1] == color)
+						tablero[i][j-1] += 10;
+					if(j+1 < tablero.length && tablero[i][j+1] == color)
+						tablero[i][j+1] += 10;
+				}
+			}
+		}
+	}
+	
+	public static void setupTablero(int[][] tablero) {
+		// modifica los tableros para hacer la preseleccion
+		tablero[0][0] += 10;
+		contagiar(tablero);
+		
 	}
 
 	public static boolean esCompleto(int[][] tablero){
@@ -161,7 +196,7 @@ public class Tabloidex {
 			
 			System.out.print("\u2503");
 			for (byte j = 0; j < tablero[i].length; j++) {
-				System.out.print(tablero[i][j]);
+				System.out.print(tablero[i][j] % 10);
 				System.out.print("\u2503");
 			}
 			System.out.println("");

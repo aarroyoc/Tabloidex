@@ -27,8 +27,8 @@ public class Tablero extends JComponent {
 		
 		for(byte i=0;i<matrix.length;i++){
 			for(byte j=0;j<matrix[i].length;j++){
-				g.setColor(colorFromNumber(matrix[i][j]));
-				g.fillRect(i*width, j*width, width, width);
+				g.setColor(colorFromNumber(matrix[i][j] % 10));
+				g.fillRect(j*width, i*width, width, width);
 			}
 		}
 	}
