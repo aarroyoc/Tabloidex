@@ -3,13 +3,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Tablero extends JComponent {
-	private int[][] matrix = new int[][]{{1,2,1},{2,3,1},{3,2,1}};
+	private int[][] matrix = new int[9][9];
 	
 	public Tablero(){
 		
 	}
-	public void updateMatrix(){
-		
+	public void setMatrix(int[][] m){
+		matrix = m;
+		this.repaint();
 	}
 	
 	public Color colorFromNumber(int n){

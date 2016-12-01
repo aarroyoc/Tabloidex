@@ -15,7 +15,7 @@ public class Ventana extends JFrame {
 		this.setVisible(true);
 	}
 	
-	public void updateMatrix(){
-		tablero.updateMatrix();
+	public void setMatrix(int[][] m){
+		tablero.setMatrix(m);
 	}
 }
