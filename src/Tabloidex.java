@@ -23,8 +23,8 @@ public class Tabloidex {
 	}
 
 	public static void modoContinuo(Scanner in) {		
-		int colors = 2;
-		int size = 9;
+		int colors = 3;
+		int size = 6;
 		boolean exit = false;
 		int pasos = 0; // LEER MINIMO DE PASOS DE ARCHIVO
 		// TODO GUARDAR MINIMO DE PASOS EN ARCHIVO
@@ -33,7 +33,8 @@ public class Tabloidex {
 		
 		
 		while(!exit){
-			int[][] tablero = genTablero(size,colors);
+			//int[][] tablero = genTablero(size,colors);
+			int[][] tablero = {{1,1,2,2,1,3},{3,2,2,3,2,3},{3,3,1,2,1,2},{1,2,2,3,1,2},{3,2,3,3,2,3},{2,2,3,2,2,3}};
 			printTablero(tablero);
 			while(!esCompleto(tablero)){
 				byte selection;
@@ -48,15 +49,12 @@ public class Tabloidex {
 				
 				// TODO el algoritmo tiene fallos
 				int previo = tablero[0][0];
-				for(int i =0;i<tablero.length;i++){
-					for(int j=0;j<tablero.length && tablero[i][j] == previo;j++){
-						tablero[i][j] = selection;
-					}
-				}
-				
-				for(int j =0;j<tablero.length;j++){
-					for(int i=0;i<tablero.length && tablero[i][j] == previo;i++){
-						tablero[i][j] = selection;
+				for(int i=0;i<tablero.length;i++){
+					for(int j=0;j<tablero.length;j++){
+						// PARA SABER SI ALGO ESTA SELECCIONADO
+						// - MATRIZ INDEPENDIENTE BOOLEANA
+						// - OBJETO CELDA
+						// - TERCERA DIMENSION
 					}
 				}
 				
@@ -119,7 +117,7 @@ public class Tabloidex {
 		}
 
 	}
-	
+
 	public static boolean esCompleto(int[][] tablero){
 		boolean completo = true;
 		int inicial = tablero[0][0];
@@ -208,7 +206,7 @@ public class Tabloidex {
 			case 1:
 				modoContinuo(in);
 				break;
-			case 2:
+			case 2: 
 				modoProgresivo();
 				break;
 			case 42:
