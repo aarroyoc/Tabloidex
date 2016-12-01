@@ -15,9 +15,12 @@ public class Tablero extends JComponent {
 	
 	public Color colorFromNumber(int n){
 		switch(n){
-		case 1: return new Color(255,0,0);
-		case 2: return new Color(0,255,0);
-		case 3: return new Color(0,0,255);
+		case 1: return new Color(0,153,0);
+		case 2: return new Color(51,0,51);
+		case 3: return new Color(51,255,204);
+		case 4: return new Color(153,51,0);
+		case 5: return new Color(204,0,0);
+		case 6: return new Color(204,153,0);
 		default: return new Color(0,0,0);
 		}
 	}
