@@ -1,6 +1,5 @@
 import java.util.Random;
 import java.util.Scanner;
-import java.util.stream.IntStream;
 
 public class Tabloidex {
 	public static Ventana ventana;
@@ -16,12 +15,6 @@ public class Tabloidex {
 		return rand;
 	}
 
-	public static void sumaInfinita() {
-		Random random = new Random();
-		IntStream infinito = random.ints();
-		System.out.println("Suma de infinitos aleatorios: " + infinito.sum());
-	}
-
 	public static void modoContinuo(Scanner in) {		
 		int colors = 2;
 		int size = 9;
@@ -34,6 +27,17 @@ public class Tabloidex {
 		
 		while(!exit){
 			//int[][] tablero = {{1,1,2,2,1,3},{3,2,2,3,2,3},{3,3,1,2,1,2},{1,2,2,3,1,2},{3,2,3,3,2,3},{2,2,3,2,2,3}};
+			// MATRICES TRICKY
+			/*int[][] tablero = { {1,1,1,1,1,1,1,1,1},
+								{1,2,2,2,2,2,2,2,2},
+								{1,2,2,2,2,2,2,2,2},
+								{1,2,2,2,1,1,1,1,1},
+								{1,1,1,2,2,2,2,2,1},
+								{2,2,1,2,2,2,2,2,1},
+								{2,2,1,2,2,2,2,2,1},
+								{2,2,1,1,1,1,1,1,1},
+								{2,2,2,2,2,2,2,2,2}};*/
+			
 			int[][] tablero = genTablero(size,colors);
 			setupTablero(tablero);
 			printTablero(tablero);
@@ -129,18 +133,23 @@ public class Tabloidex {
 	}
 
 	public static void contagiar(int[][] tablero){
-		for(int i=0;i<tablero.length;i++){
-			for(int j=0;j<tablero.length;j++){
-				if(tablero[i][j] / 10 == 1){
-					int color = tablero[i][j] % 10;
-					if(i+1 < tablero.length && tablero[i+1][j] == color)
-						tablero[i+1][j] += 10;
-					if(i-1 >= 0 && tablero[i-1][j] == color)
-						tablero[i-1][j] += 10;
-					if(j-1 >= 0 && tablero[i][j-1] == color)
-						tablero[i][j-1] += 10;
-					if(j+1 < tablero.length && tablero[i][j+1] == color)
-						tablero[i][j+1] += 10;
+		// ESTA BIEN PERO HAY QUE IR REPITIENDO VARIAS VECES. EL MAXIMO SERIA EL ANCHO DEL TABLERO (Size)
+		for(int q=0;q<tablero.length;q++){
+			
+			// pasada simple
+			for(int i=0;i<tablero.length;i++){
+				for(int j=0;j<tablero.length;j++){
+					if(tablero[i][j] / 10 == 1){
+						int color = tablero[i][j] % 10;
+						if(i+1 < tablero.length && tablero[i+1][j] == color)
+							tablero[i+1][j] += 10;
+						if(i-1 >= 0 && tablero[i-1][j] == color)
+							tablero[i-1][j] += 10;
+						if(j-1 >= 0 && tablero[i][j-1] == color)
+							tablero[i][j-1] += 10;
+						if(j+1 < tablero.length && tablero[i][j+1] == color)
+							tablero[i][j+1] += 10;
+					}
 				}
 			}
 		}
@@ -249,9 +258,6 @@ public class Tabloidex {
 				break;
 			case 77:
 				System.out.println("El genio de la suerte dice: " + genNumero(10));
-				break;
-			case 12:
-				sumaInfinita();
 				break;
 			case 15:
 				printTablero(genTablero(9,3));
