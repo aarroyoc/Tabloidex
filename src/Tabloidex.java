@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.io.*;
 
 public class Tabloidex {
 	public static Ventana ventana;
@@ -232,6 +233,52 @@ public class Tabloidex {
 		}
 		
 	}
+	
+	public static void writeFile(){
+		// MODO TEXTO
+		try{
+			PrintWriter p = new PrintWriter(new File("Tabloidex.txt"));
+			p.println("TABLOIDEX WRITE FILE");
+			p.close();
+		}catch(Exception e){
+			System.out.println("EXCEPCION: "+e.getMessage());
+			e.printStackTrace(System.out);
+		}
+		
+		// MODO BINARIO
+		// EDITAR ARCHIVO CON "hexedit Tabloidex.dat"
+		// F2 - Guardar
+		// Ctrl+C - Salir
+		// EDITAR ARCHIVO CON "vim -b Tabloidex.dat"
+		// Pasar a HEXADECIMAL ":%!xxd"
+		// Retornar para guardar ":%!xxd -r"
+		try{
+			FileOutputStream fs = new FileOutputStream(new File("Tabloidex.dat"));
+			DataOutputStream out = new DataOutputStream(fs);
+			//out.writeBoolean(true);
+			out.writeBoolean(true);
+			out.writeByte(0xfa);
+			out.writeByte(0x56);
+			out.close();
+		}catch(Exception e){
+			System.out.println("EXCEPCION: "+e.getMessage());
+		}
+		
+	}
+	
+	public static void readFile(){
+		try{
+			FileInputStream fs = new FileInputStream(new File("Tabloidex.dat"));
+			DataInputStream in = new DataInputStream(fs);
+			
+			while(in.readBoolean()){
+				System.out.println("BOOLEAN");
+			}
+			in.close();
+		}catch(Exception e){
+			
+		}
+	}
 
 	public static void main(String[] args) {
 		boolean exit = false;
@@ -262,7 +309,13 @@ public class Tabloidex {
 			case 15:
 				printTablero(genTablero(9,3));
 				break;
-			}
+			case 24: 
+				writeFile();
+				break;
+			case 25:
+				readFile();
+				break;
+		}
 		}
 
 	}

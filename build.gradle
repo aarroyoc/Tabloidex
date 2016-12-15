@@ -1,0 +1,16 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.8
+version = "1.0"
+
+sourceSets.main.java.srcDirs = ["src"]
+
+jar {
+	manifest{
+		attributes "Implementation-Title": "Tabloidex",
+		           "Implementation-Version": version,
+		           "Main-Class": "Tabloidex"
+	}
+}
+
+
