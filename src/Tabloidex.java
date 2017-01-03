@@ -252,8 +252,8 @@ public class Tabloidex {
 
 		// FILE
 		// | SIZE 4 BITS| MODE 1 BIT| COLOR 3 BITS| SCORE 8 BITS |
-		List ids = new ArrayList();
-		List scores = new ArrayList();
+		List<Byte> ids = new ArrayList<Byte>();
+		List<Byte> scores = new ArrayList<Byte>();
 		try {
 			FileInputStream fsIn = new FileInputStream(new File("Tabloidex.dat"));
 			DataInputStream in = new DataInputStream(fsIn);
@@ -264,6 +264,8 @@ public class Tabloidex {
 				ids.add(in.readByte());
 				scores.add(in.readByte());
 			}
+			in.close();
+			fsIn.close();
 		} catch (Exception e) {
 			// System.out.println("Excepción: "+e.getMessage());
 		}
@@ -323,7 +325,7 @@ public class Tabloidex {
 				fs.close();
 				throw new Exception("No es un fichero Tabloidex");
 			}
-		} catch (Exception e) {
+		}catch (Exception e) {
 			// System.out.println(e.getMessage());
 		}
 		return score;
