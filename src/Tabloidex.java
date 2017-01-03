@@ -258,7 +258,8 @@ public class Tabloidex {
 			FileInputStream fsIn = new FileInputStream(new File("Tabloidex.dat"));
 			DataInputStream in = new DataInputStream(fsIn);
 			if (!(in.readByte() == 'T' && in.readByte() == 'X')) {
-				throw new Exception("No es un fichero Tabloidex o ");
+				in.close();
+				throw new Exception("No es un fichero Tabloidex");
 			}
 			while (in.available() >= 2) {
 				ids.add(in.readByte());
