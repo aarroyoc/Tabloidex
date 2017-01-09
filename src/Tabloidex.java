@@ -183,8 +183,123 @@ public class Tabloidex {
 		return completo;
 	}
 
-	public static void modoProgresivo() {
+	public static void modoProgresivo(Scanner in) {
+		boolean exit = false;
+		while (!exit) {
+			System.out.println("MODO PROGRESIVO");
+			System.out.println("0. Volver a menú de modo de juego");
 
+			byte score = readScoreFor((byte) 9, (byte) 1, (byte) 2);
+			if (score == 0)
+				System.out.println("1. Sin resolver todavía");
+			else
+				System.out.println("1. Resuelto en " + score + " pasos");
+
+			score = readScoreFor((byte) 9, (byte) 1, (byte) 3);
+			if (score == 0)
+				System.out.println("2. Sin resolver todavía");
+			else
+				System.out.println("2. Resuelto en " + score + " pasos");
+
+			score = readScoreFor((byte) 9, (byte) 1, (byte) 4);
+			if (score == 0)
+				System.out.println("3. Sin resolver todavía");
+			else
+				System.out.println("3. Resuelto en " + score + " pasos");
+
+			score = readScoreFor((byte) 9, (byte) 1, (byte) 5);
+			if (score == 0)
+				System.out.println("4. Sin resolver todavía");
+			else
+				System.out.println("4. Resuelto en " + score + " pasos");
+
+			byte seleccion = -1;
+			do {
+				seleccion = in.nextByte();
+			} while (seleccion < 0 || seleccion > 4);
+
+			if (seleccion == 0)
+				return;
+
+			while (seleccion > 0) {
+				int pasos = 0;
+				int[][] tablero = tableroProgresivo(seleccion);
+				setupTablero(tablero);
+				printTablero(tablero);
+				byte maxScore = readScoreFor((byte) 9, (byte) 1, (byte) (seleccion + 1));
+				while (!esCompleto(tablero)) {
+					byte selection;
+					do {
+						System.out.println("Pasos empleados: " + pasos + "\tMinimo de pasos: " + maxScore);
+						System.out.print("Introduce el color: ");
+						selection = in.nextByte();
+						System.out.println();
+					} while (selection == tablero[0][0] % 10 || selection < 1 || selection > 6);
+
+					pasos++;
+
+					for (int i = 0; i < tablero.length; i++) {
+						for (int j = 0; j < tablero.length; j++) {
+							if (tablero[i][j] / 10 == 1) {
+								tablero[i][j] = 10 + selection;
+							}
+						}
+					}
+
+					contagiar(tablero);
+					printTablero(tablero);
+				}
+				// guardar si pasos es mejor
+				if(maxScore > pasos || maxScore == 0){
+					writeScoreFor((byte)9,(byte)1,(byte)(seleccion + 1),(byte)pasos);
+				}
+
+				System.out.println("MODO PROGRESIVO");
+				System.out.println("0. Salir a la lista de niveles");
+				System.out.println("1. Ir al siguiente nivel");
+
+				byte menu = -1;
+				do {
+					menu = in.nextByte();
+				} while (menu < 0 || menu > 1);
+
+				switch (menu) {
+				case 0:
+					seleccion = 0;
+					break;
+				case 1:
+					seleccion++;
+					if (seleccion == 5)
+						seleccion = 1;
+					break;
+				}
+			}
+		}
+	}
+
+	public static int[][] tableroProgresivo(int s) {
+		switch (s) {
+		case 1:
+			return new int[][] { { 2, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					{ 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					{ 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					{ 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
+		case 2:
+			return new int[][] { { 3, 2, 1, 1, 1, 1, 1, 1, 1 }, { 2, 1, 1, 1, 1, 1, 1, 1, 1 },
+					{ 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					{ 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					{ 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
+		case 3:
+			return new int[][] { { 1, 1, 1, 1, 1, 2, 3, 1, 1 }, { 1, 1, 1, 1, 2, 3, 1, 1, 1 },
+					{ 1, 1, 1, 2, 3, 1, 1, 1, 1 }, { 1, 1, 2, 3, 1, 1, 1, 1, 1 }, { 1, 2, 3, 1, 2, 2, 2, 2, 2 },
+					{ 2, 3, 1, 1, 2, 3, 3, 3, 2 }, { 3, 1, 1, 1, 2, 3, 1, 3, 2 }, { 1, 1, 1, 1, 2, 3, 3, 3, 2 },
+					{ 1, 1, 1, 1, 2, 2, 2, 2, 2 } };
+		default:
+			return new int[][] { { 1, 2, 2, 2, 2, 2, 2, 2, 2 }, { 1, 2, 2, 2, 2, 2, 2, 2, 2 },
+					{ 3, 1, 1, 1, 1, 1, 1, 1, 1 }, { 3, 2, 2, 2, 2, 2, 2, 2, 2 }, { 3, 1, 1, 1, 1, 1, 1, 1, 1 },
+					{ 3, 2, 2, 2, 2, 2, 2, 2, 2 }, { 3, 1, 1, 1, 1, 1, 1, 1, 1 }, { 3, 2, 2, 2, 2, 2, 2, 2, 2 },
+					{ 3, 1, 1, 1, 1, 1, 1, 1, 1 } };
+		}
 	}
 
 	public static int[][] genTablero(int size, int colors) {
@@ -326,19 +441,19 @@ public class Tabloidex {
 				fs.close();
 				throw new Exception("No es un fichero Tabloidex");
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// System.out.println(e.getMessage());
 		}
 		return score;
 	}
-	
-	public static void resetScore(){
-		File tabloidex = new File ("Tabloidex.dat");
+
+	public static void resetScore() {
+		File tabloidex = new File("Tabloidex.dat");
 		if (tabloidex.delete())
 			System.out.print("El fichero ha sido eliminado correctamente.");
 		else
 			System.out.print("El fichero no se ha podido eliminar.");
-		
+
 	}
 
 	public static void main(String[] args) {
@@ -348,7 +463,7 @@ public class Tabloidex {
 			System.out.println("MODO DE JUEGO");
 			System.out.println("1. Modo continuo");
 			System.out.println("2. Modo progresivo");
-			System.out.println("3. RESET (CAMBIAR)");
+			System.out.println("3. Iniciar todas las estadísticas de juego");
 			System.out.println("0. Salir de TABLOIDEX");
 			Scanner in = new Scanner(System.in);
 			byte opcion = in.nextByte();
@@ -360,10 +475,11 @@ public class Tabloidex {
 				modoContinuo(in);
 				break;
 			case 2:
-				modoProgresivo();
+				modoProgresivo(in);
 				break;
 			case 3:
 				resetScore();
+				break;
 			case 42:
 				pruebaGrafica();
 				break;
