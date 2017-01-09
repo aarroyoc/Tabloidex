@@ -13,7 +13,7 @@ public class Tabloidex {
 	}
 
 	public static int genNumero(int max) {
-		// Genera u{n número aleatorio entre el 1 y el máximo
+		// Genera un numero aleatorio entre el 1 y el maximo
 		Random random = new Random();
 		int rand = 1 + random.nextInt(max);
 		return rand;
@@ -22,22 +22,14 @@ public class Tabloidex {
 	public static void modoContinuo(Scanner in) {
 		int colors = 2;
 		int size = 9;
-		boolean exit = false;
-		int pasos = 0; // LEER MINIMO DE PASOS DE ARCHIVO
-		byte maxScore = readScoreFor((byte) size, (byte) 0, (byte) colors);
+		boolean exit = false; // salir del modo continuo?
+		int pasos = 0;
+		byte maxScore = readScoreFor((byte) size, (byte) 0, (byte) colors); // leer puntuacion max para 
 
+		// iniciamos el primer nivel
 		System.out.println("NIVEL 1 - 9x9 / 2 colores");
 
 		while (!exit) {
-			// int[][] tablero =
-			// {{1,1,2,2,1,3},{3,2,2,3,2,3},{3,3,1,2,1,2},{1,2,2,3,1,2},{3,2,3,3,2,3},{2,2,3,2,2,3}};
-			// MATRICES TRICKY
-			/*
-			 * int[][] tablero = { {1,1,1,1,1,1,1,1,1}, {1,2,2,2,2,2,2,2,2},
-			 * {1,2,2,2,2,2,2,2,2}, {1,2,2,2,1,1,1,1,1}, {1,1,1,2,2,2,2,2,1},
-			 * {2,2,1,2,2,2,2,2,1}, {2,2,1,2,2,2,2,2,1}, {2,2,1,1,1,1,1,1,1},
-			 * {2,2,2,2,2,2,2,2,2}};
-			 */
 			maxScore = readScoreFor((byte) size, (byte) 0, (byte) colors);
 			int[][] tablero = genTablero(size, colors);
 			setupTablero(tablero);
@@ -45,20 +37,13 @@ public class Tabloidex {
 			while (!esCompleto(tablero)) {
 				byte selection;
 				do {
-					System.out.println("Pasos empleados: " + pasos + "\tMínimo de pasos: " + maxScore);
+					System.out.println("Pasos empleados: " + pasos + "\tMinimo de pasos: " + maxScore);
 					System.out.print("Introduce el color: ");
 					selection = in.nextByte();
 					System.out.println();
-				} while (selection == tablero[0][0] % 10 || selection < 1 || selection > colors);
+				} while (selection == tablero[0][0] % 10 || selection < 1 || selection > colors); // validar entrada
 
 				pasos++;
-
-				// PARA SABER SI ALGO ESTA SELECCIONADO
-				// - MATRIZ INDEPENDIENTE BOOLEANA
-				// - OBJETO CELDA
-				// - TERCERA DIMENSION
-				// - MODULO 10 (printTablero y Tablero)
-				// - Caminos con Dijsktra
 
 				// Cambiar el valor de la seleccion al nuevo valor
 				for (int i = 0; i < tablero.length; i++) {
@@ -71,8 +56,6 @@ public class Tabloidex {
 
 				// Contagiar
 				contagiar(tablero);
-
-				// printTablero
 				printTablero(tablero);
 			}
 
@@ -80,33 +63,33 @@ public class Tabloidex {
 			System.out.println("MODO CONTINUO");
 			switch (size) {
 			case 9:
-				System.out.println("Tamaño de tablero: PEQUEÑO (9x9)");
+				System.out.println("Tamanno de tablero: PEQUENNO (9x9)");
 				break;
 			case 11:
-				System.out.println("Tamaño de tablero: MEDIANO (11x11)");
+				System.out.println("Tamanno de tablero: MEDIANO (11x11)");
 				break;
 			case 15:
-				System.out.println("Tamaño de tablero: GRANDE (15x15");
+				System.out.println("Tamanno de tablero: GRANDE (15x15");
 				break;
 			}
-			System.out.println("Número de colores: " + colors);
+			System.out.println("Numero de colores: " + colors);
 			System.out.println("Pasos empleados: " + pasos);
 
 			if (maxScore > pasos || maxScore == 0) {
 				writeScoreFor((byte) size, (byte) 0, (byte) colors, (byte) pasos);
-				System.out.println("Menor número de pasos empleados: " + pasos);
+				System.out.println("Menor numero de pasos empleados: " + pasos);
 			} else {
-				System.out.println("Menor número de pasos empleados: " + maxScore);
+				System.out.println("Menor numero de pasos empleados: " + maxScore);
 			}
 
-			// Mostrar menú
+			// Mostrar menu
 			while (!exit && pasos != 0) {
 				System.out.println();
-				System.out.println("¿NUEVO TABLERO?");
-				System.out.println("0. Volver a menú de MODO DE JUEGO");
-				System.out.println("1. Nuevo tablero con estas características");
-				System.out.println("2. Cambiar tamaño");
-				System.out.println("3. Cambiar número de colores");
+				System.out.println("NUEVO TABLERO?");
+				System.out.println("0. Volver a menu de MODO DE JUEGO");
+				System.out.println("1. Nuevo tablero con estas caracteristicas");
+				System.out.println("2. Cambiar tamanno");
+				System.out.println("3. Cambiar numero de colores");
 				int option;
 				do {
 					option = in.nextInt();
@@ -120,29 +103,28 @@ public class Tabloidex {
 					break;
 				case 2:
 					do {
-						System.out.println("Introdudce el nuevo tamaño del tablero (9, 11 o 15):");
+						System.out.println("Introduce el nuevo tamano del tablero (9, 11 o 15):");
 						size = in.nextInt();
 					} while (size != 9 && size != 11 && size != 15);
 					break;
 				case 3:
 					do {
-						System.out.println("Introduce el número de colores (entre 2 y 6)");
+						System.out.println("Introduce el numero de colores (entre 2 y 6)");
 						colors = in.nextInt();
 					} while (colors < 2 || colors > 6);
 					break;
 
 				}
 			}
-
-			// Cambiar variables según opción y LOOP!!
 		}
 
 	}
 
 	public static void contagiar(int[][] tablero) {
-		// ESTA BIEN PERO HAY QUE IR REPITIENDO VARIAS VECES. EL MAXIMO SERIA EL
-		// ANCHO DEL TABLERO (Size)
-		for (int q = 0; q < tablero.length; q++) {
+		// se repite el proceso para permitir que el contagio pueda propagarse de hacia arriba y hacia la izquierda
+		// con un n�mero de veces igual al ancho del tablero por 2 se asegura para todos los casos
+		// pues se asegura que recorra hacia arriba y hacia la izquierda en casos extremos (espirales)
+		for (int q = 0; q < tablero.length*2; q++) {
 
 			// pasada simple
 			for (int i = 0; i < tablero.length; i++) {
@@ -171,6 +153,7 @@ public class Tabloidex {
 	}
 
 	public static boolean esCompleto(int[][] tablero) {
+		// se comprueban si todas las casillas son iguales a la casilla [0,0]
 		boolean completo = true;
 		int inicial = tablero[0][0];
 		for (int i = 0; i < tablero.length && completo; i++) {
@@ -278,6 +261,7 @@ public class Tabloidex {
 	}
 
 	public static int[][] tableroProgresivo(int s) {
+		// almacen de tableros para el modo progresivo
 		switch (s) {
 		case 1:
 			return new int[][] { { 2, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -303,6 +287,7 @@ public class Tabloidex {
 	}
 
 	public static int[][] genTablero(int size, int colors) {
+		// generacion de tablero aleatorio
 		Random random = new Random();
 		int[][] tablero = new int[size][size];
 		for (byte i = 0; i < size; i++) {
@@ -314,7 +299,7 @@ public class Tabloidex {
 	}
 
 	public static void printTablero(int[][] tablero) {
-
+		// imprimir tablero
 		// parte arriba
 		System.out.print("\u250f");
 		for (byte i = 0; i < tablero.length * 2 - 1; i++) {
@@ -324,7 +309,7 @@ public class Tabloidex {
 
 		// imprimir
 		for (byte i = 0; i < tablero.length; i++) {
-			// Números
+			// Numeros
 
 			System.out.print("\u2503");
 			for (byte j = 0; j < tablero[i].length; j++) {
@@ -366,7 +351,9 @@ public class Tabloidex {
 		// Retornar para guardar ":%!xxd -r"
 
 		// FILE
-		// | SIZE 4 BITS| MODE 1 BIT| COLOR 3 BITS| SCORE 8 BITS |
+		// | SIZE 4 BITS| MODE 1 BIT| COLOR/TABLE 3 BITS| SCORE 8 BITS |
+		
+		// se lee completamente el archivo
 		List<Byte> ids = new ArrayList<Byte>();
 		List<Byte> scores = new ArrayList<Byte>();
 		try {
@@ -383,9 +370,11 @@ public class Tabloidex {
 			in.close();
 			fsIn.close();
 		} catch (Exception e) {
-			// System.out.println("Excepci�n: "+e.getMessage());
+			// System.out.println("Excepcion: "+e.getMessage());
 		}
 
+		// se reescribe el archivo menos la puntuaci�n correspondiente al byteID que vamos a modificar
+		// esa se escribe aparte
 		try {
 			FileOutputStream fsOut = new FileOutputStream(new File("Tabloidex.dat"));
 			DataOutputStream out = new DataOutputStream(fsOut);
@@ -417,6 +406,7 @@ public class Tabloidex {
 	}
 
 	public static byte readScoreFor(byte size, byte mode, byte color) {
+		// se busca la puntuacion y se devuelve si existe
 		byte score = 0x00;
 		try {
 			FileInputStream fs = new FileInputStream(new File("Tabloidex.dat"));
@@ -448,6 +438,7 @@ public class Tabloidex {
 	}
 
 	public static void resetScore() {
+		// se elimina el fichero para borrar todas las puntuaciones
 		File tabloidex = new File("Tabloidex.dat");
 		if (tabloidex.delete())
 			System.out.print("El fichero ha sido eliminado correctamente.");
