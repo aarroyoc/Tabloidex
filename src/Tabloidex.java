@@ -170,29 +170,29 @@ public class Tabloidex {
 		boolean exit = false;
 		while (!exit) {
 			System.out.println("MODO PROGRESIVO");
-			System.out.println("0. Volver a menú de modo de juego");
+			System.out.println("0. Volver a menu de modo de juego");
 
 			byte score = readScoreFor((byte) 9, (byte) 1, (byte) 2);
 			if (score == 0)
-				System.out.println("1. Sin resolver todavía");
+				System.out.println("1. Sin resolver todavia");
 			else
 				System.out.println("1. Resuelto en " + score + " pasos");
 
 			score = readScoreFor((byte) 9, (byte) 1, (byte) 3);
 			if (score == 0)
-				System.out.println("2. Sin resolver todavía");
+				System.out.println("2. Sin resolver todavia");
 			else
 				System.out.println("2. Resuelto en " + score + " pasos");
 
 			score = readScoreFor((byte) 9, (byte) 1, (byte) 4);
 			if (score == 0)
-				System.out.println("3. Sin resolver todavía");
+				System.out.println("3. Sin resolver todavia");
 			else
 				System.out.println("3. Resuelto en " + score + " pasos");
 
 			score = readScoreFor((byte) 9, (byte) 1, (byte) 5);
 			if (score == 0)
-				System.out.println("4. Sin resolver todavía");
+				System.out.println("4. Sin resolver todavia");
 			else
 				System.out.println("4. Resuelto en " + score + " pasos");
 
@@ -454,7 +454,7 @@ public class Tabloidex {
 			System.out.println("MODO DE JUEGO");
 			System.out.println("1. Modo continuo");
 			System.out.println("2. Modo progresivo");
-			System.out.println("3. Iniciar todas las estadísticas de juego");
+			System.out.println("3. Iniciar todas las estadisticas de juego");
 			System.out.println("0. Salir de TABLOIDEX");
 			Scanner in = new Scanner(System.in);
 			byte opcion = in.nextByte();
