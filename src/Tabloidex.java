@@ -268,7 +268,7 @@ public class Tabloidex {
 			in.close();
 			fsIn.close();
 		} catch (Exception e) {
-			// System.out.println("Excepción: "+e.getMessage());
+			// System.out.println("Excepciï¿½n: "+e.getMessage());
 		}
 
 		try {
@@ -331,6 +331,15 @@ public class Tabloidex {
 		}
 		return score;
 	}
+	
+	public static void resetScore(){
+		File tabloidex = new File ("Tabloidex.dat");
+		if (tabloidex.delete())
+			System.out.print("El fichero ha sido eliminado correctamente.");
+		else
+			System.out.print("El fichero no se ha podido eliminar.");
+		
+	}
 
 	public static void main(String[] args) {
 		boolean exit = false;
@@ -339,6 +348,7 @@ public class Tabloidex {
 			System.out.println("MODO DE JUEGO");
 			System.out.println("1. Modo continuo");
 			System.out.println("2. Modo progresivo");
+			System.out.println("3. RESET (CAMBIAR)");
 			System.out.println("0. Salir de TABLOIDEX");
 			Scanner in = new Scanner(System.in);
 			byte opcion = in.nextByte();
@@ -352,6 +362,8 @@ public class Tabloidex {
 			case 2:
 				modoProgresivo();
 				break;
+			case 3:
+				resetScore();
 			case 42:
 				pruebaGrafica();
 				break;
